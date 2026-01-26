@@ -124,7 +124,7 @@ namespace Infrastructure.Repositories
                         {
                             result.AddRange(cachedData.Where(epd =>
                                 epd.StartDate >= dateRange.start &&
-                                epd.EndDate <= dateRange.end));
+                                epd.StartDate < dateRange.end));
 
                             datesToFetch.Remove(dateRange);
 
@@ -168,7 +168,7 @@ namespace Infrastructure.Repositories
 
                 _logger.LogInformation($"Fetching missing data for period: StartDate = {dateRange.start}, EndDate = {dateRange.end}");
                 var dbData = await _context.ElectricityPriceDatas
-                                           .Where(epd => epd.StartDate >= dateRange.start && epd.EndDate <= dateRange.end)
+                                           .Where(epd => epd.StartDate >= dateRange.start && epd.StartDate < dateRange.end)
                                            .ToListAsync();
                 result.AddRange(dbData);
 
